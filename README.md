@@ -54,7 +54,8 @@ Returns 403 for unauthorised sensors, 400 for invalid readings.
 ---
 
 **Project Structure**
-PY02/
+```
+Aether/
 ├── run.sh                          # Startup script
 ├── requirements.txt                # Dependencies
 ├── historical_readings.csv         # Historical sensor data
@@ -76,10 +77,14 @@ PY02/
     ├── data_cleaning.py            # Pandas-based validation and cleaning
     ├── wkt_parser.py               # WKT POINT coordinate parser
     └── visualization.py            # Plotly map and chart generators
+
+   ``` 
 ---
 
 **Classes and Functions**
+
 WKTParser
+
 Parses sensor locations stored in WKT (Well-Known Text) format using regex.
 
 parse_point(wkt_string) — parses a POINT(lon lat) string, returns (lon, lat) tuple or None if invalid
@@ -88,6 +93,7 @@ validate_coordinates(longitude, latitude) — returns True if coordinates are wi
 
 ---
 DataCleaner
+
 Pandas-based data validation and cleaning.
 
 validate_readings(readings) — validates a single reading dict, returns (is_valid, errors). Rejects negative values and PM2.5 > 500
@@ -102,6 +108,7 @@ calculate_statistics(df) — returns a dict of mean, median, min, max, std for e
 
 ---
 PersistenceManager
+
 Handles all file I/O.
 
 save_readings(readings) — writes full readings list to JSON
@@ -116,6 +123,7 @@ load_config(file_path) — loads a JSON config file into a dict
 
 ---
 SensorReading
+
 Domain model for a single sensor submission.
 
 sensor_id, readings, timestamp
@@ -124,6 +132,7 @@ to_dict() — serialises to a dictionary with ISO timestamp
 
 ---
 SensorInfo
+
 Domain model for a registered sensor.
 
 id, location, latitude, longitude, metadata, last_reading, last_update
@@ -132,6 +141,7 @@ to_dict() — serialises to a dictionary
 
 ---
 SensorManager
+
 Core business logic layer. Manages sensors, readings, and historical data.
 
 ingest_reading(sensor_id, readings) — validates sensor authorisation and reading values, persists, updates sensor state, returns SensorReading
@@ -150,6 +160,7 @@ has_historical_data(sensor_id) — returns True if historical data exists for th
 
 ---
 MapVisualizer
+
 Generates interactive Plotly maps.
 
 create_real_time_map(sensors_data) — creates a scatter map of the Netherlands with colour-coded PM2.5 levels (green/yellow/orange/red/gray)
@@ -158,6 +169,7 @@ _get_color_and_status(pm25_value) — maps a PM2.5 value to a colour and status 
 
 ---
 TemporalVisualizer
+
 Generates interactive Plotly time series and distribution charts.
 
 create_time_series(df, sensor_id, title) — multi-line chart for PM2.5, PM10, NO2, O3 with a range slider
@@ -166,6 +178,7 @@ create_distribution_chart(df, thresholds, year, month) — stacked bar chart sho
 
 ---
 Configuration
+
 config/server_config.json
 ```
 {
@@ -198,6 +211,7 @@ config/sensors.json
 ```
 
 ### **Tests**
+
 pytest tests/ -v
 ---
 Test File	- Coverage
@@ -207,6 +221,7 @@ test_main.py	- All API endpoints, integration flow, error handling
 
 ---
 ### **Built With**
+
 Python 3.11+
 
 FastAPI — REST API framework
